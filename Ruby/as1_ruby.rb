@@ -3,14 +3,14 @@ puts "enter the size of the grid"
 $size =  gets.chomp.to_i
 
 #Initializing Array
-$array = Array.new($size){Array.new($size,0)}
+$array = Array.new($size){Array.new($size , 0)}
 
 #sample Data
-$array[0][0]=10
-$array[1][1]=20
-$array[2][2]=30
-$array[3][3]=40
-$array[4][4]=50
+$array[0][0] = 10
+$array[1][1] = 20
+$array[2][2] = 30
+$array[3][3] = 40
+$array[4][4] = 50
 
 # Hash to find the index
 $column_hash = {
@@ -37,7 +37,7 @@ def print_array
     print "\n"
   end
 end
-def set_dependency (lhs,rhs)
+def set_dependency (lhs , rhs)
   cells = rhs.split(" ")
   #temp variable to push the dependent cell into the Hash
   temp = $dependent_hash[cells[0].to_sym]||[]
@@ -49,13 +49,13 @@ def set_dependency (lhs,rhs)
 end
 def execute_string(lhs,rhs)
   cells = rhs.split(" ")
-  $array[lhs[1].to_i][$column_hash[lhs[0].to_sym]] = $array[cells[0][1].to_i][$column_hash[cells[0][0].to_sym]].send(cells[1],$array[cells[2][1].to_i][$column_hash[cells[2][0].to_sym]])
+  $array[lhs[1].to_i][$column_hash[lhs[0].to_sym]] = $array[cells[0][1].to_i][$column_hash[cells[0][0].to_sym]].send(cells[1] , $array[cells[2][1].to_i][$column_hash[cells[2][0].to_sym]])
 end
 def resolve_dependency(input)
   puts $dependent_hash[input]
-  unless ($dependent_hash[input].empty?|| !$dependent_hash[input])
+  unless ($dependent_hash[input] == [] || !$dependent_hash[input])
       $dependent_hash[input].each do |key|
-        execute_string(key,$expression_hash[key.to_sym])
+        execute_string(key , $expression_hash[key.to_sym])
         resolve_dependency(key.to_sym)
     end
   end
@@ -83,8 +83,8 @@ loop do
     rhs = inp[1]
     #saving the input expression into expression_hash
     $expression_hash[lhs.to_sym] = rhs
-    set_dependency(lhs,rhs)
-    execute_string(lhs,rhs)
+    set_dependency(lhs , rhs)
+    execute_string(lhs , rhs)
     resolve_dependency(lhs.to_sym)
     print_array
   when 3

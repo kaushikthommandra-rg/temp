@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Music Player</title>
+  <style>
+    button {
+              background-color: yellow;
+              font-weight: 600;
+            }
+    #form {
+              position: fixed;
+              bottom: 5%;
+              left: 5%;
+    }
+    table {
+            border-collapse: collapse;
+            border: 2px solid black;
+            padding: 10px;
+            text-align: center;
+          }
+    td , th{
+              border: 2px solid black;
+              padding: 10px;
+              text-align: center;
+            }
+
+  </style>
+  <script type="text/javascript" src="/ques6.js"></script>
+</head>
+
+<body>
+<div id = "form" >
+  <p> <strong>Add new Song </strong> </p>
+  <form action="/action_page.php">
+    Song Name: <input type="text" name="SongName"><br>
+    Song Theme: <input type="text" name="SongTheme"><br>
+    <input type="submit" value="Add Song">
+  </form>
+</div>
+<div id = "show_playlist">
+  <table>
+    <tr>
+      <th>Song Name</th>
+      <th>Theme Name </th>
+      <th>Times Played</th>
+      <th> Last Played</th>
+    </tr>
+  </table>
+</div>
+<div id = 'songslist'></div>
+
+</body>
+</html>

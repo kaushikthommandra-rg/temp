@@ -1,7 +1,6 @@
 function tableCreate(rows , col) {
     var body = document.getElementsByTagName('body')[0];
     var tbl = document.createElement('table');
-//    tbl.style.width = '20%';
     tbl.setAttribute('border', '1');
     var tbdy = document.createElement('tbody');
     for (var i = 0; i < rows; i++) {

@@ -1,0 +1,139 @@
+/* Style the buttons that are used to open and close the accordion panel */
+button.accordion {
+	background-color: #eee;
+	color: #444;
+	cursor: pointer;
+	padding: 18px;
+	width: 100%;
+	text-align: left;
+	border: none;
+	outline: none;
+	transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+button.accordion.active, button.accordion:hover {
+	background-color: #ddd;
+}
+
+/* Style the accordion panel. Note: hidden by default */
+div.panel {
+	padding: 0 18px;
+	background-color: white;
+	display: none;
+}
+
+#sudokuDynamicTable tr:nth-child(even) {
+  border-bottom: 2px solid;
+}
+
+#sudokuDynamicTable td:nth-child(even) {
+  border-right: 2px solid;
+}
+
+#sudokuDynamicTable table {
+  border-collapse: collapse;
+}
+
+#sudokuDynamicTable {
+  padding-top: 10px;
+}
+
+#sudokuDynamicTable .errors {
+ border-color: red;
+}
+
+.display-error-messages {
+  background-color: #e47676;
+  text-align: center;
+  font-size: 25px;
+  color: white;
+  margin-top: 10px;
+}
+
+.browser-window {
+   background-color: #eee;
+   border:1px solid #c0c0c0;
+   padding: 2em;
+   margin: auto;
+   margin-top: 10px;
+   margin-bottom: 10px;
+   width: 30%;
+}
+
+.block1 {
+  background-color: green;
+  border:1px solid black;
+  margin: auto;
+}
+
+.block2 {
+  display: inline-block;
+  width: 120px;
+  height: 150px;
+  margin: 30px;
+  background-color: orange;
+}
+
+.block3 {
+  display: inline-block;
+  width: 120px;
+  height: 150px;
+  margin: 30px;
+  background-color: #7c7cd2;
+  float: right;
+}
+
+.color-blue{
+  background-color: #7c7cd2;
+}
+
+.color-yellow{
+  background-color: orange;
+}
+
+.toggle-checkbox {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 2em;
+	height: 2em;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background: white;
+  border-radius: 1px;
+  box-sizing: border-box;
+  position: relative;
+  box-sizing: content-box ;
+  border-width: 0;
+  transition: all .3s linear;
+  margin-left: 3.2em;
+}
+
+.toggle-checkbox:checked{
+  background-color: #2ECC71;
+}
+
+.container table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.container td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+.container tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.container, .container-dimension {
+  padding: 10px;
+}
+
+.container td p {
+  display: inline;
+}

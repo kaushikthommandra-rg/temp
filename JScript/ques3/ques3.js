@@ -80,13 +80,13 @@ function getValues(event) {
     if (row_col != 'col' && row_col != 'row') {
       alert('Invalid input select row or col  \n Generating Normal Table With given dimensions')
     }
-    if (row_col == 'col') {
+    if (row_col == 'row') {
       if (row_col_val >= a[0]) {
         alert ("row value out of bound  \n Generating Normal Table With given dimensions")
       }
       row_span = end-start+1
     }
-    if (row_col == 'row') {
+    if (row_col == 'col') {
       if (row_col_val >= a[1]) {
         alert ("col value out of bound  \n Generating Normal Table With given dimensions")
       }

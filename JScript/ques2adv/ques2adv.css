@@ -1,6 +1,6 @@
 #hero {
   position: fixed;
-  top: 5%;
+  top: 10%;
   left: 10%;
   display: none;
 }
@@ -16,7 +16,6 @@
   left: 10%;
   display: none;
 }
-
 #ability_add {
   position: fixed;
   bottom: 10%;

@@ -1,5 +1,6 @@
 'use strict';
 document.getElementById('name_input').value = '';
+
 class Folder {
   constructor(name, parent = null) {
     this.name = name;
@@ -62,6 +63,7 @@ class File {
 const paths = {};
 const root = new Folder('root');
 let cur_root = root;
+
 document.getElementById('path').innerHTML = `The current Directory is: ${cur_root.path}`
 
 
@@ -106,4 +108,31 @@ function moveUp() {
   if (cur_root.parent) {
     cur_root.parent.setRoot()
   }
+}
+function search()  {
+  if (document.getElementById('search_list')) {
+    document.getElementById('search_area').removeChild(document.getElementById('search_list'))
+  }
+  const search_list = document.createElement('ul')
+  search_list.id = 'search_list'
+  const name = document.getElementById('search_input').value;
+  if (name !== '') {
+    const paths_list = Object.keys(paths);
+    for (let i = 0; i < paths_list.length; i++) {
+      if (paths_list[i].includes(name)) {
+        const list_data = document.createElement('li');
+        list_data.innerHTML = paths_list[i];
+        list_data.addEventListener('click' , searchClick);
+        list_data.style.color = 'red';
+        search_list.appendChild(list_data);
+      }
+    }
+  }
+  document.getElementById('search_area').appendChild(search_list);
+  document.getElementById('search_input').value = '';
+}
+function searchClick() {
+  debugger;
+  const path = this.innerHTML;
+  paths[path].parent.setRoot();
 }

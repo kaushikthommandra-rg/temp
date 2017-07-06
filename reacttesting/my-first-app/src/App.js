@@ -3,16 +3,150 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import $ from 'jquery';
 
+
+class PopulatePulls extends React.Component {
+  render() {
+    return(
+      <table>
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <th>rasied User</th>
+          </tr>
+          { this.props.data.map( ( item, index ) => (
+            <tr key={index}>
+              <td><a href={item.url} target="_blank" >{item.title}</a></td>
+              <td>{item.user.login}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )
+  }
+}
+
+class ReposList extends React.Component {
+  showPullRequest(i) {
+    $.get(i, function(result) {
+      this.props.onAction(result)
+    }.bind(this));
+  };
+  render() {
+    return (
+      <div>
+        <table >
+          <tbody>
+            <tr>
+              <th>Repo_Name</th>
+              <th>Repo_Owner</th>
+              <th>Stars</th>
+              <th>forks</th>
+              <th>Pull Request</th>
+            </tr>
+            { this.props.repositories.map( ( repo, index ) => (
+              <tr key={index}>
+                <td>
+                  <a href={repo.html_url} target="_blank">{ repo.name }</a>
+                </td>
+                <td>
+                  { repo.owner.login }
+                </td>
+                <td>
+                  { repo.stargazers_count }
+                </td>
+                <td>
+                  { repo.forks }
+                </td>
+                <td>
+                  <button onClick={this.showPullRequest.bind(this,repo.pulls_url.replace('{/number}', "?state=all"))}>Show</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+}
+
+class PullsList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      all: [],
+      open: [],
+      merged: []
+    }
+  };
+
+  componentWillMount() {
+    const _open = [];
+    const _merged = [];
+    const _all = [];
+    this.props.pullrequestlist.map(function(pullReq,i) {
+      _all.push(pullReq);
+      if(pullReq.state === "open"){
+        _open.push(pullReq);
+      }else{
+        _merged.push(pullReq);
+      }
+    })
+    this.setState({
+        all: _all,
+        open: _open,
+        merged: _merged
+    });
+  };
+
+  render() {
+    return(
+      <Tabs>
+        <TabList>
+          <Tab>All</Tab>
+          <Tab>Open</Tab>
+          <Tab>Merged</Tab>
+        </TabList>
+
+        <TabPanel>
+          <PopulatePulls data={this.state.all} />
+          {/* <table>
+            <tbody>
+              <tr>
+            <th>Name</th>
+            <th>rasied User</th>
+              </tr>
+              { this.state.all.map( ( item, index ) => (
+            <tr key={index}>
+            <td><a href={item.url} target="_blank" >{item.title}</a></td>
+            <td>{item.user.login}</td>
+            </tr>
+              ))}
+            </tbody>
+          </table> */}
+        </TabPanel>
+
+        <TabPanel>
+          <PopulatePulls data={this.state.open} />
+        </TabPanel>
+
+        <TabPanel>
+          <PopulatePulls data={this.state.merged} />
+        </TabPanel>
+
+      </Tabs>
+    )
+
+  }
+}
+
 class App extends React.Component {
   constructor() {
     super();
+    this.getPullsData = this.getPullsData.bind(this);
     this.state = {
       tabIndex: 0,
       repos: [],
       source: '',
-      all: [],
-      open: [],
-      merged: [],
       pull: []
     }
   };
@@ -30,38 +164,12 @@ class App extends React.Component {
      }.bind(this));
   };
 
-  segregateRequests() {
-    const _open = [];
-    const _merged = [];
-    const _all = [];
-    this.state.pull.map(function(pullReq,i){
-      _all.push(pullReq);
-      if(pullReq.state === "open"){
-        _open.push(pullReq);
-      }else{
-        _merged.push(pullReq);
-      }
-    })
+  getPullsData(val) {
     this.setState({
-        all: _all,
-        open: _open,
-        merged: _merged
-
+      pull: val,
+      tabIndex: 1
     });
   };
-
-  showPullRequest(i) {
-    this.setState({tabIndex: 1});
-    $.get(i, function(result) {
-      const request = result;
-        this.setState({
-          pull: request,
-        });
-      this.segregateRequests();
-    }.bind(this));
-  };
-
-
 
   render() {
     return (
@@ -75,95 +183,11 @@ class App extends React.Component {
             <div>
               <input type="text"  onChange={this.handleChange.bind(this)} />
               <input type="button" value="search" onClick={this.handleClick.bind(this)} />
-              <table >
-                <tbody>
-                  <tr>
-                    <th>Repo_Name</th>
-                    <th>Repo_Owner</th>
-                    <th>Stars</th>
-                    <th>forks</th>
-                    <th>Pull Request</th>
-                  </tr>
-                  { this.state.repos.map( ( repo, index ) => (
-
-                    <tr key={index}>
-                      <td>
-                        <a href={repo.html_url} target="_blank">{ repo.name }</a>
-                      </td>
-                      <td>
-                        { repo.owner.login }
-                      </td>
-                      <td>
-                        { repo.stargazers_count }
-                      </td>
-                      <td>
-                        { repo.forks }
-                      </td>
-                      <td>
-                        <button onClick={this.showPullRequest.bind(this,repo.pulls_url.replace('{/number}', "?state=all"))}>Show</button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              <ReposList repositories={this.state.repos} onAction ={this.getPullsData} />
             </div>
           </TabPanel>
           <TabPanel>
-            <Tabs>
-              <TabList>
-                <Tab>All</Tab>
-                <Tab>Open</Tab>
-                <Tab>Merged</Tab>
-              </TabList>
-              <TabPanel>
-                <table>
-                  <tbody>
-                    <tr>
-                      <th>Name</th>
-                      <th>rasied User</th>
-                    </tr>
-                    { this.state.all.map( ( item, index ) => (
-                      <tr key={index}>
-                        <td><a href={item.url} target="_blank" >{item.title}</a></td>
-                        <td>{item.user.login}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </TabPanel>
-              <TabPanel>
-                <table>
-                  <tbody>
-                    <tr>
-                      <th>Name</th>
-                      <th>rasied User</th>
-                    </tr>
-                    { this.state.open.map( ( item, index ) => (
-                      <tr key={index}>
-                        <td><a href={item.url} target="_blank" >{item.title}</a></td>
-                        <td>{item.user.login}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </TabPanel>
-              <TabPanel>
-                <table>
-                  <tbody>
-                    <tr>
-                      <th>Name</th>
-                      <th>rasied User</th>
-                    </tr>
-                    { this.state.merged.map( ( item, index ) => (
-                      <tr key={index}>
-                        <td><a href={item.url} target="_blank" >{item.title}</a></td>
-                        <td>{item.user.login}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </TabPanel>
-            </Tabs>
+            <PullsList pullrequestlist = {this.state.pull} />
           </TabPanel>
         </Tabs>
       </div>
@@ -172,4 +196,3 @@ class App extends React.Component {
 }
 
 export default App;
-// ReactDOM.render(<App  />,document.getElementById('root'))

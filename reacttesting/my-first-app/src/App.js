@@ -31,12 +31,14 @@ class ReposList extends React.Component {
       this.props.onAction(result)
     }.bind(this));
   };
+
   render() {
     return (
       <div>
         <table >
           <tbody>
             <tr>
+              <th>S.No</th>
               <th>Repo_Name</th>
               <th>Repo_Owner</th>
               <th>Stars</th>
@@ -45,21 +47,12 @@ class ReposList extends React.Component {
             </tr>
             { this.props.repositories.map( ( repo, index ) => (
               <tr key={index}>
-                <td>
-                  <a href={repo.html_url} target="_blank">{ repo.name }</a>
-                </td>
-                <td>
-                  { repo.owner.login }
-                </td>
-                <td>
-                  { repo.stargazers_count }
-                </td>
-                <td>
-                  { repo.forks }
-                </td>
-                <td>
-                  <button onClick={this.showPullRequest.bind(this,repo.pulls_url.replace('{/number}', "?state=all"))}>Show</button>
-                </td>
+                <td>{index}</td>
+                <td><a href={repo.html_url} target="_blank">{ repo.name }</a></td>
+                <td>{repo.owner.login}</td>
+                <td>{repo.stargazers_count}</td>
+                <td>{repo.forks}</td>
+                <td><button onClick={this.showPullRequest.bind(this,repo.pulls_url.replace('{/number}', "?state=all"))}>Show</button></td>
               </tr>
             ))}
           </tbody>
@@ -109,20 +102,6 @@ class PullsList extends React.Component {
 
         <TabPanel>
           <PopulatePulls data={this.state.all} />
-          {/* <table>
-            <tbody>
-              <tr>
-            <th>Name</th>
-            <th>rasied User</th>
-              </tr>
-              { this.state.all.map( ( item, index ) => (
-            <tr key={index}>
-            <td><a href={item.url} target="_blank" >{item.title}</a></td>
-            <td>{item.user.login}</td>
-            </tr>
-              ))}
-            </tbody>
-          </table> */}
         </TabPanel>
 
         <TabPanel>
@@ -135,7 +114,6 @@ class PullsList extends React.Component {
 
       </Tabs>
     )
-
   }
 }
 
@@ -153,7 +131,7 @@ class App extends React.Component {
 
   handleChange(e) {
     const repo_input = e.target.value;
-    this.setState({ source: "https://api.github.com/search/repositories?q=" + repo_input + "&sort=stars&order=desc" });
+    this.setState({ source: "https://api.github.com/search/repositories?q=" + repo_input + "&sort=stars&order=desc&per_page=100" });
   };
 
   handleClick() {

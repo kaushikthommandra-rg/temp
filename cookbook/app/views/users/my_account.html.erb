@@ -1,0 +1,22 @@
+
+<p>Your username is <%= @sessName %>
+<a href="log_out">Log out</a> <br />
+
+<input type="text" name="" value="">
+<button type="button" name="button" onclick="search">Search</button>
+
+<table>
+  <tr>
+    <th>Image</th>
+    <th>Title</th>
+    <th>rating</th>
+  </tr>
+  <% @movies.each do |movie| %>
+    <tr>
+        <td><img src=" http://image.tmdb.org/t/p/w185/<%= movie.poster_path%>" alt=""></td>
+        <td><%= movie.title %></td>
+        <td><%= movie.vote_average %></td>
+        <td><button type="button" name="button">Add to cart</button></td>
+    </tr>
+  <% end %>
+</table>

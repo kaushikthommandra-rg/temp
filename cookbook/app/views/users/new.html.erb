@@ -1,0 +1,23 @@
+<%= form_for @user do |f| %>
+  <% if @user.errors.any? %>
+    <div class='error_messsages'>
+      <h2>Form is invalid</h2>
+      <ul>
+        <% for message in @user.errors.full_messages %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <p>
+    <%= f.label :user_name %><br />
+    <%= f.text_field :user_name %>
+  </p>
+  <p>
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </p>
+  <p class="button"><%= f.submit %></p>
+<% end %>
+
+<p>Already a user? click here to <%= link_to 'login', log_in_url %> </p>

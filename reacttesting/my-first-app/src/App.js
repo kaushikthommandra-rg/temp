@@ -124,14 +124,15 @@ class App extends React.Component {
     this.state = {
       tabIndex: 0,
       repos: [],
-      source: '',
+      source: 'https://api.github.com/search/repositories?q=user%3Akaushikthommandra',
       pull: []
     }
   };
 
   handleChange(e) {
     const repo_input = e.target.value;
-    this.setState({ source: "https://api.github.com/search/repositories?q=" + repo_input + "&sort=stars&order=desc&per_page=100" });
+    console.log(repo_input);
+      this.setState({ source: "https://api.github.com/search/repositories?q=" + repo_input + "&sort=stars&order=desc&per_page=100" });
   };
 
   handleClick() {

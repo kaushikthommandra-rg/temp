@@ -1,0 +1,15 @@
+version: '2'
+
+services:
+
+  container1:
+
+    image: image-with-ruby
+
+    command: bash -c "mkdir container1_file && echo 'hello world'"
+
+  container2:
+
+    image: image-with-ruby
+
+    command: bash -c "mkdir container2_file && echo 'hello world'"

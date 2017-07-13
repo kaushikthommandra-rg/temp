@@ -12,21 +12,24 @@
 
 ActiveRecord::Schema.define(version: 20170620112846) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "employees", force: :cascade do |t|
     t.string "name"
     t.integer "age"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "designation"
-    t.integer "lead_id"
-    t.integer "project_id"
+    t.bigint "lead_id"
+    t.bigint "project_id"
     t.index ["lead_id"], name: "index_employees_on_lead_id"
     t.index ["project_id"], name: "index_employees_on_project_id"
   end
 
   create_table "employees_skills", id: false, force: :cascade do |t|
-    t.integer "employee_id", null: false
-    t.integer "skill_id", null: false
+    t.bigint "employee_id", null: false
+    t.bigint "skill_id", null: false
   end
 
   create_table "leads", force: :cascade do |t|
@@ -47,4 +50,6 @@ ActiveRecord::Schema.define(version: 20170620112846) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "employees", "leads"
+  add_foreign_key "employees", "projects"
 end
